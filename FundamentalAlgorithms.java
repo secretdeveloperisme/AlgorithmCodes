@@ -152,10 +152,15 @@ public class FundamentalAlgorithms {
 				break;
 			}
 		}
-		// remove 10 000 000 
+		if(size > 2 && numberArray[size - 2] == 0) {
+			numberTexts[size - 2] = "";
+			units[lengthOfTexts - 2] = "le";
+		}
+		// concat result 
 		for(int i = 0; i < size;i++) {	
 			result += numberTexts[i] + " " + units[10 - size + i] +" ";
 		}	
+		// change le in vietnamese 
 		List listNumbers =List.of(0,1,2,3,4,5,6,7,8,9);
 		if(size == 5 && (listNumbers.indexOf((float)n/10000) != -1)) {
 			result += "ngan";
