@@ -118,10 +118,12 @@ public class FundamentalAlgorithms {
         return result;
     }
     public static String numberToText(int n) {
+    	// handle raw 
 		int size = String.valueOf(n).trim().length();
 		byte[] numberArray = new byte[size];
 		int index = 0;
 		int copyN = n;
+		// split number to array numbers
 		while(copyN > 0) {
 			byte a = (byte)(copyN % 10);
 			copyN /= 10;
@@ -138,6 +140,7 @@ public class FundamentalAlgorithms {
 		int lengthOfTexts = texts.length;
 		String result = "";
 		String[] numberTexts = new String[size];
+		// reverse array numbers
 		for(int i = 0;i < size;i++) {
 			numberTexts[i] = texts[numberArray[i]]; 
 		}
@@ -152,7 +155,8 @@ public class FundamentalAlgorithms {
 				break;
 			}
 		}
-		if(size > 2 && numberArray[size - 2] == 0) {
+		// fix case 101
+		if(size > 2 && numberArray[size - 2] == 0 && numberArray[size - 1] !=0) {
 			numberTexts[size - 2] = "";
 			units[lengthOfTexts - 2] = "le";
 		}
@@ -160,8 +164,8 @@ public class FundamentalAlgorithms {
 		for(int i = 0; i < size;i++) {	
 			result += numberTexts[i] + " " + units[10 - size + i] +" ";
 		}	
-		// change le in vietnamese 
-		List listNumbers =List.of(0,1,2,3,4,5,6,7,8,9);
+		// fix case 10000 100000 10000000 100000000
+		List listNumbers =List.of((float)0.0,(float)1.0,(float)2.0,(float)3.0,(float)4.0,(float)5.0,(float)6.0,(float)7.0,(float)8.0,(float)9.0);
 		if(size == 5 && (listNumbers.indexOf((float)n/10000) != -1)) {
 			result += "ngan";
 		}
@@ -177,7 +181,11 @@ public class FundamentalAlgorithms {
 					if(size == 9 && (listNumbers.indexOf((float)n/100000000) != -1)) {
 						result += "trieu";
 					}
+		// fix other cases
 		result = result.replace("mot muoi", "muoi");
+		result = result.replace("khong muoi", "");
+		result = result.replace("khong ngan", "ngan");
+		// beauty number text 
 		Pattern pattern = Pattern.compile("\\w+");
 		Matcher matcher = pattern.matcher(result);
 		result = "";
